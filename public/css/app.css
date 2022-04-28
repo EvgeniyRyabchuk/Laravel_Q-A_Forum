@@ -1,0 +1,259 @@
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+    }
+    header {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 10px;
+        border-bottom: 1px solid black;
+    }
+    .nav-item {
+        padding: 10px;
+        background-color: aquamarine;
+        margin: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        color: black;
+    }
+    .nav-item:hover {
+        background-color: bisque;
+    }
+
+    main {
+        width: 1400px;
+        padding: 30px;
+        margin: 0 auto;
+    }
+
+.card-body ul li {
+    display: block;
+    list-style-type: none;
+    padding: 20px;
+    overflow: hidden;
+}
+.card-body ul {
+    display: block;
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+.card-body {
+
+}
+.card-q {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+}
+.card-title {
+    color:cadetblue;
+    font-size: 25px;
+    padding-bottom: 10px;
+}
+.card-text {
+    font-size: 16px !important;
+    max-height: 48px;
+    overflow: hidden;
+}
+a {
+    text-decoration: none;
+    color: cadetblue;
+}
+.card-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+}
+.q-tags {
+    border: 1px solid black;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 124px;
+    overflow: hidden;
+    border: 1px dashed gray;
+}
+.tag {
+    border: 1px dashed gray;
+    padding: 5px 10px;
+    text-decoration: underline;
+    margin: 3px;
+    background-color: lightblue;
+    cursor: pointer;
+    font-size: 10px;
+}
+.tag:hover {
+    color: cadetblue;
+}
+.q-date {
+    display: block;
+    max-width: 200px;
+    justify-self: end;
+}
+.q-name {
+    justify-self: start;
+}
+.q-meta {
+    display: flex;
+    padding: 10px 0px;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.q {
+   padding: 20px;
+
+}
+
+.q-body {
+  display: flex;
+}
+.q-body .rate-block {
+  width: 20%;
+}
+.q-body .text-block {
+  width: 80%;
+}
+
+.rate-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#like-btn, #dislike-btn
+{
+  display: block;
+  width: 100px;
+  height: 100px;
+}
+
+.answers {
+  margin: 40px 0;
+  padding: 0;
+}
+
+.answers > li {
+  display: flex;
+  padding: 20px;
+}
+.answers .answer-body {
+  width: 100%;
+  flex-grow: 1;
+  padding: 10px 20px;
+}
+
+.best-answer {
+  background-color: green;
+}
+
+.left-side {
+  width: 130px;
+  border-right: 3px solid gray;
+  padding: 0 20px;
+}
+
+
+
+.answer-actions { }
+.answer-actions .action {
+  color: gray;
+  text-decoration: underline;
+  margin: 20px;
+
+}
+
+.answer-actions .action:hover {
+  color: blue;
+}
+
+.clear-btn {
+  outline: none;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.answer-comments {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  padding: 40px 0;
+}
+.answer-comments div {
+  margin-left: 40px;
+  margin-top: 10px;
+}
+
+.comments  {
+  padding: 20px;
+}
+.comments > li {
+  margin-left: 40px;
+  padding: 20px 0;
+}
+#like-answer-btn {
+  background-color: darkgreen;
+  color: white;
+}
+#dislike-answer-btn {
+  background-color: darkred;
+  color: white;
+}
+#like-answer-btn, #dislike-answer-btn {
+  border: 1px solid black;
+  width: 100%;
+  height: 50px;
+}
+
+.btn-disable {
+    background: darkgray;
+
+}
+
+
+
+
+@media screen and (max-width: 1400px) {
+    main {
+        width: 100%;
+        margin: 0;
+    }
+    .card-body ul {
+        width: 100%;
+    }
+    .card-q {
+        width: 100%;
+    }
+}
+
