@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->string('text', 300);
-            $table->unsignedInteger('likeCount');
-            $table->unsignedInteger('dislikeCount');
+            $table->unsignedInteger('likeCount')->default(0);
+            $table->unsignedInteger('dislikeCount')->default(0);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

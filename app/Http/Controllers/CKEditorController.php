@@ -44,6 +44,10 @@ class CKEditorController extends Controller
     public function remove(Request $request) {
         $urlArr = $request->post('urlList');
         $userId = Auth::user()->id;
+
+        if (is_null($urlArr) || count($urlArr) == 0)
+            return response()->json( ['err' => 'images doesn\'t e'], 401);
+
         foreach ($urlArr as $url) {
             // parsed path
             $path = parse_url($url, PHP_URL_PATH);

@@ -241,7 +241,22 @@ ul, li {
 
 }
 
-
+.show {
+    display: block !important;
+}
+.hidden {
+    display: none !important;
+}
+.comment-form {
+    display: block;
+    position: relative;
+    margin: 10px 0;
+    display: none;
+}
+.comment-form textarea {
+    width: 100% !important;
+    min-height: 100px;
+}
 
 
 @media screen and (max-width: 1400px) {

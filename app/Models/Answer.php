@@ -9,6 +9,10 @@ class Answer extends Model
 {
     use HasFactory;
 
+    /**
+     * @var array|mixed|string|null
+     */
+
     public function question() {
         return $this->belongsTo(Question::class);
     }

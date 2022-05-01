@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -119,5 +122,42 @@ class QuestionController extends Controller
         $question = Question::findOrFail($id);
         $question->delete();
         return redirect('/');
+    }
+
+
+
+    public function postAnswer(Request $request, $questionId) {
+        $text = $request->post('summary-ckeditor');
+        $user = Auth::user();
+        $question = Question::findOrFail($questionId);
+
+        $answer = new Answer();
+        $answer->text = $text;
+        $answer->user()->associate($user);
+
+        $question->answers()->save($answer);
+
+        return response()->json([
+            'msg' => 'Answer added success',
+            'answer' => $answer
+        ], 201);
+    }
+
+    public function postAnswerComment(Request $request, $questionId, $answerId) {
+        $text = $request->post('text');
+        $user = Auth::user();
+        $answer = Answer::findOrFail($answerId);
+
+        $comment = new Comment();
+        $comment->text = $text;
+        $comment->answer()->associate($answer);
+        $comment->user()->associate($user);
+
+        $answer->comments()->save($comment);
+
+        return response()->json([
+            'msg' => 'Comment added success',
+            'comment' => $comment
+        ], 201);
     }
 }

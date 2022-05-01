@@ -45,11 +45,18 @@ Route::prefix('questions')->group(function () {
         Route::get('/create', [QuestionController::class, 'create']);
         Route::get('/{id}/edit', [QuestionController::class, 'edit']); // show edit post from
         Route::post('/', [QuestionController::class, 'store']); // add post
-
         Route::delete('/{id}', [QuestionController::class, 'destroy']); // delete post
+
+
+        Route::post('/{questionId}/answer', [QuestionController::class, 'postAnswer']);
+        Route::post('/{questionId}/answers/{answerId}/comments', [QuestionController::class, 'postAnswerComment']);
     });
+
+
+
     Route::get('/', [QuestionController::class, 'index']); // show all posts
     Route::get('/{id}', [QuestionController::class, 'show'])->middleware('viewCount'); // show open post
+
 });
 
 
