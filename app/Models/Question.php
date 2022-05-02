@@ -26,4 +26,9 @@ class Question extends Model
         return $this->hasMany(QuestionView::class);
     }
 
+    public function rates()
+    {
+        return $this->morphMany(Rate::class, 'rateable');
+    }
+
 }

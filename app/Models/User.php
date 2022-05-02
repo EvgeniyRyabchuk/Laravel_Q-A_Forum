@@ -51,4 +51,12 @@ class User extends Authenticatable
         return $this->hasMany(Question::class);
     }
 
+    public function rates()
+    {
+        return $this->belongsToMany(Rate::class);
+    }
+
+    public function users() {
+        return $this->belongsTo(User::class);
+    }
 }

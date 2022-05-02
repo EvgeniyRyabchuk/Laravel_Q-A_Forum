@@ -63,4 +63,71 @@ abstract class StaticCreator
                 $created->save();
             });
     }
+
+
+
+
+
+    private function setParamsToModel($params, $created) {
+        foreach ($params as $param) {
+            $p = $param[0];
+            $created->$p = $param[1];
+        }
+    }
+
+
+    public function createForManyOwnersRandomlyWithParams($owners, $count, $foreignKeyName, $ownerIdentiryName, $params)
+    {
+        return $this->model::factory($count)->create()
+            ->each(function ($created) use ($ownerIdentiryName, $foreignKeyName, $owners, $params) {
+                $owner = $this->getRandomItemOfCollection($owners);
+                $created->$foreignKeyName = $owner->$ownerIdentiryName;
+                $this->setParamsToModel($params, $created);
+                $created->save();
+            });
+    }
+
+    public function createForOneOwnerWithParams($owner, $count, $foreignKeyName, $ownerIdentiryName, $params)
+    {
+        return $this->model::factory($count)->create()
+            ->each(function ($created) use($ownerIdentiryName, $foreignKeyName, $owner, $params) {
+                $created->$foreignKeyName = $owner->$ownerIdentiryName;
+                $this->setParamsToModel($params, $created);
+                $created->save();
+            });
+    }
+
+    public function createForOneOwnerAndManyChildWithParams($owners, $count, $properties, $params)
+    {
+        return $this->model::factory($count)->create()
+            ->each(function ($created) use($properties, $owners, $params) {
+                for($i = 0; $i < count($owners); $i++) {
+                    $owner = $owners[$i];
+                    $foreignKeyName = $properties[$i][0];
+                    $ownerIdentiryName = $properties[$i][1];
+                    $created->$foreignKeyName = $owner->$ownerIdentiryName;
+                }
+                $this->setParamsToModel($params, $created);
+                $created->save();
+            });
+    }
+
+
+    public function createForManyOwnersRandomlyAndManyChildWithParams($owners, $count, $properties, $params)
+    {
+        return $this->model::factory($count)->create()
+            ->each(function ($created) use($properties, $owners, $params) {
+                for($i = 0; $i < count($owners); $i++) {
+                    $owner = $this->getRandomItemOfCollection($owners[$i]);
+                    $foreignKeyName = $properties[$i][0];
+                    $ownerIdentiryName = $properties[$i][1];
+                    $created->$foreignKeyName = $owner->$ownerIdentiryName;
+                }
+                $this->setParamsToModel($params, $created);
+                $created->save();
+            });
+    }
+
+
+
 }

@@ -28,10 +28,12 @@
             </div>
             <div class="rate-block">
                 <div>
-                    <button id="like-btn" class="rate-btn">+</button>
+                    <span>Like: <span class="num">{{ $question->likeCount }}</span></span>
+                    <button id="likeBtn" data-rate-type="like" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">+</button>
                 </div>
                 <div>
-                    <button id="dislike-btn" class="rate-btn">-</button>
+                    <button id="dislikeBtn" data-rate-type="dislike" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">-</button>
+                    <span>Dislike: <span class="num">{{ $question->dislikeCount }}</span></span>
                 </div>
             </div>
         </div>
@@ -54,6 +56,47 @@
             <button type="submit" class="mt-3 btn btn-primary">Post Your Answer</button>
         </form>
         <script>
+            async function rate(e) {
+                const rateType = e.target.dataset.rateType;
+                const rateTarget = e.target.dataset.rateTarget;
+                const targetId = e.target.dataset.targetId;
+
+                const baseUrl = "{{ url('/') }}";
+                const body = JSON.stringify({
+                    rateTarget,
+                    rateType,
+                });
+
+                try {
+                    const data = await fetch(`${baseUrl}/rate/${targetId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-csrf-token': '{{csrf_token()}}',
+                        },
+                        body
+                    })
+                    const json = await data.json();
+                    const rate = json.rate;
+                    let spanNum = undefined;
+                    if(rateType == 'like')
+                        spanNum = e.target.previousElementSibling.querySelector('.num');
+                    else
+                        spanNum = e.target.nextElementSibling.querySelector('.num');
+                    spanNum.innerText = parseInt(spanNum.innerText) + 1;
+                    console.log(span);
+                }
+                catch (e) {
+                    console.log(e)
+                }
+                // console.log(type, rateTarget);
+            }
+
+            const rateBtnList = [ document.querySelector('#likeBtn'), (document.querySelector('#dislikeBtn')) ];
+            rateBtnList.forEach((e) => { e.addEventListener('click', rate) });
+
+
+
             window.addEventListener('load', () => {
                 const postQForm = document.querySelector('#postForm');
                 postQForm.addEventListener('submit', async (e) => {

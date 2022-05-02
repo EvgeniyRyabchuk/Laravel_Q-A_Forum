@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title', 100);
             $table->string('text', 2000);
-            $table->unsignedInteger('likeCount')->default(0);
-            $table->unsignedInteger('dislikeCount')->default(0);
+//            $table->unsignedInteger('likeCount')->default(0);
+//            $table->unsignedInteger('dislikeCount')->default(0);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedInteger('viewCount')->default(0);
             $table->timestamps();

@@ -6,7 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RateController;
+use App\Http\Controllers\CKEditorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,8 +34,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AccountController::class, 'index']);
 
-    Route::post('ckeditor/image_upload', [\App\Http\Controllers\CKEditorController::class, 'upload'])->name('upload');
-    Route::post('ckeditor/remove ', [\App\Http\Controllers\CKEditorController::class, 'remove'])->name('remove_upload');
+    Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
+    Route::post('ckeditor/remove ', [KEditorController::class, 'remove'])->name('remove_upload');
+
+    Route::post('/rate/{targetId}', [RateController::class, 'simpleRate']);
+
 });
 
 //Route::delete('/question/{id}', [QuestionController::class, 'destroy']); // delete post

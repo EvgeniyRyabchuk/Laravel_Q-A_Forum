@@ -29,7 +29,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('private.question.create');
+        return view('public.question.create');
     }
 
     /**
@@ -56,6 +56,9 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::findOrFail($id);
+        $question->likeCount = $question->rates()->where('type', 'like')->count();
+        $question->dislikeCount =  $question->rates()->where('type', 'dislike')->count();
+
         return view('public.question.show', compact('question'));
     }
 
@@ -68,7 +71,7 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findOrFail($id);
-        return view('private.question.edit', compact('question'));
+        return view('public.question.edit', compact('question'));
     }
 
     /**

@@ -21,8 +21,8 @@ class QuestionFactory extends Factory
         return [
             'title' =>  $this->faker->realText(30),
             'text' => $this->faker->realText(1000),
-            'likeCount' => $this->faker->numberBetween(0, 50),
-            'dislikeCount' => $this->faker->numberBetween(0, 50),
+//            'likeCount' => $this->faker->numberBetween(0, 50),
+//            'dislikeCount' => $this->faker->numberBetween(0, 50),
             'user_id' => '1'
         ];
     }

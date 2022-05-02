@@ -6,10 +6,12 @@ namespace Database\Seeders;
 use App\Models\Answer;
 use App\Models\Comment;
 use App\Models\Question;
+use App\Models\Rate;
 use App\Models\Tag;
 use Database\Factories\Creators\StaticAnswerCreator;
 use Database\Factories\Creators\StaticCommentCreator;
 use Database\Factories\Creators\StaticQuestionCreator;
+use Database\Factories\Creators\StaticRateCreator;
 use Database\Factories\Creators\StaticUserCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -30,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $questionCreator = new StaticQuestionCreator(Question::class);
         $answerCreator = new StaticAnswerCreator(Answer::class);
         $commentCreator = new StaticCommentCreator(Comment::class);
+        $rateCreator = new StaticRateCreator(Rate::class);
 
         // create random users
 //      \App\Models\User::factory(10)->create();
@@ -64,9 +67,12 @@ class DatabaseSeeder extends Seeder
 
         $comments = $commentCreator->createForManyOwnersRandomlyAndManyChild([ $users, $answers ],100, [ ['user_id', 'id'],  ['answer_id', 'id'] ]);
 
+        // create rates (this method for morph model)
+        $rates = $rateCreator->createForManyOwnersRandomlyAndManyChildWithParams([$users, $questions],
+            10, [['user_id', 'id'], ['rateable_id', 'id']], [ ['rateable_type', 'App\Models\Question' ]]);
 
-
-
+        $rates = $rateCreator->createForOneOwnerAndManyChildWithParams([$questions[0], $users[0]],
+            100, [ ['rateable_id', 'id'],  ['user_id', 'id'] ], [ ['rateable_type', 'App\Models\Question' ]]);
     }
 
 
