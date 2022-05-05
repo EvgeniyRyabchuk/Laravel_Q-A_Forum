@@ -35,14 +35,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [AccountController::class, 'index']);
 
     Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
-    Route::post('ckeditor/remove ', [KEditorController::class, 'remove'])->name('remove_upload');
+    Route::post('ckeditor/remove ', [CKEditorController::class, 'remove'])->name('remove_upload');
 
     Route::post('/rate/{targetId}', [RateController::class, 'simpleRate']);
 
+    Route::post('/answers/{answerId}/useful', [QuestionController::class, 'markAsUseful']);
+
 });
 
-//Route::delete('/question/{id}', [QuestionController::class, 'destroy']); // delete post
-//Route::resource('questions', QuestionController::class);
+
 Route::prefix('questions')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::match(['put', 'patch'], '/{id}', [QuestionController::class, 'update']); // edit post

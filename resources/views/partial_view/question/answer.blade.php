@@ -2,20 +2,39 @@
 <li class="answer">
     <div class="left-side">
         <div class="d-flex">
-            <button id="like-answer-btn" class="clear-btn rate-btn">+</button>
+            <button id="like-answer-btn"
+                    class="clear-btn rate-btn"
+                    data-rate-type="like"
+                    data-rate-target="answers"
+                    data-target-id="{{$answer->id}}">+</button>
+
             <div class="w-100 d-flex justify-content-center align-items-center">
-                <span class="d-block">{{$answer->likeCount ?? '0'}}</span>
+                <span class="d-block num">{{$answer->likeCount ?? '0'}}</span>
             </div>
         </div>
 
         <div class="d-flex">
-            <button id="dislike-answer-btn" class="clear-btn rate-btn">-</button>
+            <button id="dislike-answer-btn"
+                    class="clear-btn rate-btn"
+                    data-rate-type="dislike"
+                    data-rate-target="answers"
+                    data-target-id="{{$answer->id}}">-</button>
             <div class="w-100 d-flex justify-content-center align-items-center">
-                <span class="d-block">{{$answer->dislikeCount ?? '0'}}</span>
+                <span class="d-block num">{{$answer->dislikeCount ?? '0'}}</span>
             </div>
         </div>
         <br>
-        <button id="rightAnswer">Right</button>
+        @if($question->user->id == Auth::user()->id)
+            <button
+                    data-target-id="{{$answer->id}}"
+                    class="useful-btn
+                    @if($answer->isUseful == '1')
+                         useful
+                    @endif
+                    "
+            >Useful</button>
+        @endif
+
     </div>
     <div class="answer-body">
         <div class="author">
@@ -52,4 +71,3 @@
 
 
 
-<div></div>

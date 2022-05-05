@@ -59,6 +59,11 @@ class QuestionController extends Controller
         $question->likeCount = $question->rates()->where('type', 'like')->count();
         $question->dislikeCount =  $question->rates()->where('type', 'dislike')->count();
 
+        foreach ($question->answers as $answer) {
+            $answer->likeCount = $answer->rates()->where('type', 'like')->count();
+            $answer->dislikeCount =  $answer->rates()->where('type', 'dislike')->count();
+        }
+
         return view('public.question.show', compact('question'));
     }
 
@@ -162,5 +167,12 @@ class QuestionController extends Controller
             'msg' => 'Comment added success',
             'comment' => $comment
         ], 201);
+    }
+
+    public function markAsUseful(Request $request, $answerId) {
+        $answer = Answer::findOrFail($answerId);
+        $answer->isUseful = '1';
+        $answer->save();
+        return response()->json(['msg' => 'Answer marked success', 'answer' => $answer], 201);
     }
 }

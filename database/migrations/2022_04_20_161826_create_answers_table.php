@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('text', 300);
             $table->unsignedInteger('likeCount')->default(0);
             $table->unsignedInteger('dislikeCount')->default(0);
+            $table->boolean('isUseful')->default('0');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

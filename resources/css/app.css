@@ -144,7 +144,7 @@ a {
   align-items: flex-end;
 }
 
-#likeBtn, #dislikeBtn
+.rate-btn
 {
   display: block;
   width: 100px;
@@ -154,6 +154,12 @@ a {
 .answers {
   margin: 40px 0;
   padding: 0;
+}
+.useful {
+    background: green;
+    color: white;
+    border: 1px dashed greenyellow;
+    padding: 10px;
 }
 
 .answers > li {

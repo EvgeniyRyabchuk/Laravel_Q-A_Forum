@@ -29,10 +29,10 @@
             <div class="rate-block">
                 <div>
                     <span>Like: <span class="num">{{ $question->likeCount }}</span></span>
-                    <button id="likeBtn" data-rate-type="like" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">+</button>
+                    <button data-rate-type="like" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">+</button>
                 </div>
                 <div>
-                    <button id="dislikeBtn" data-rate-type="dislike" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">-</button>
+                    <button data-rate-type="dislike" data-rate-target="questions" data-target-id="{{$question->id}}" class="rate-btn">-</button>
                     <span>Dislike: <span class="num">{{ $question->dislikeCount }}</span></span>
                 </div>
             </div>
@@ -56,7 +56,22 @@
             <button type="submit" class="mt-3 btn btn-primary">Post Your Answer</button>
         </form>
         <script>
-            async function rate(e) {
+
+            const insertQuestionRateToHtml = (payload, rateType, target) => {
+                let spanNum = undefined;
+                if(rateType == 'like')
+                    spanNum = target.previousElementSibling.querySelector('.num');
+                else
+                    spanNum = target.nextElementSibling.querySelector('.num');
+                spanNum.innerText = parseInt(spanNum.innerText) + 1;
+            }
+            const insertAnswerRateToHtml = (payload, target) => {
+                const spanNum = target.nextElementSibling.querySelector('.num');
+                console.log(spanNum)
+                spanNum.innerText = parseInt(spanNum.innerText) + 1;
+            }
+
+            async function rateQuery(e) {
                 const rateType = e.target.dataset.rateType;
                 const rateTarget = e.target.dataset.rateTarget;
                 const targetId = e.target.dataset.targetId;
@@ -78,23 +93,46 @@
                     })
                     const json = await data.json();
                     const rate = json.rate;
-                    let spanNum = undefined;
-                    if(rateType == 'like')
-                        spanNum = e.target.previousElementSibling.querySelector('.num');
-                    else
-                        spanNum = e.target.nextElementSibling.querySelector('.num');
-                    spanNum.innerText = parseInt(spanNum.innerText) + 1;
-                    console.log(span);
+                    if(rateTarget == 'questions')
+                        insertQuestionRateToHtml(rate, rateType, e.target);
+                    else if(rateTarget == 'answers') {
+                        insertAnswerRateToHtml(rate, e.target);
+                    }
                 }
                 catch (e) {
                     console.log(e)
                 }
-                // console.log(type, rateTarget);
             }
 
-            const rateBtnList = [ document.querySelector('#likeBtn'), (document.querySelector('#dislikeBtn')) ];
-            rateBtnList.forEach((e) => { e.addEventListener('click', rate) });
+            document.querySelectorAll('.rate-btn').forEach((e) => {
+                e.addEventListener('click', rateQuery);
+            });
 
+            const markAnswerAsUseful =  async (e) => {
+                try {
+                    const answerId = e.target.dataset.targetId;
+                    const data = await fetch(`{{ url('/') }}`+ `/answers/${answerId}/useful`, {
+                        headers: {
+                            'x-csrf-token': '{{csrf_token()}}',
+                        },
+                        method: 'POST',
+                    })
+                    const response = await data.json();
+                    const status = await data.status;
+
+                    if (status === 201) {
+                        e.target.classList.add('useful');
+                        e.target.disable = true;
+                    }
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            }
+
+            document.querySelectorAll('.useful-btn').forEach((e) => {
+                e.addEventListener('click', markAnswerAsUseful);
+            });
 
 
             window.addEventListener('load', () => {
@@ -224,16 +262,9 @@
 @endsection
 
 <script>
-    //TODO: fix wrong view arch
     //TODO: make profile for user
-    //TODO: move MyUploadAdapter to separated file
     //TODO: beforeunload if file exist and delete adapter
-    //TODO: tags fix
 
-    //TODO: answer writing possibility
-    //TODO: comment possibility
-    //TODO: like and dislike possibility
-    //TODO: right mark possibility
     //TODO: search profile, tags, questions
-
+    //TODO: sort question by rate
 </script>
