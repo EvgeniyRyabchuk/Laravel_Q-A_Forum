@@ -34,7 +34,7 @@
             <form action="/logout" method="POST">
                 <button class="nav-item" >Log out</button>
             </form>
-            <a class="nav-item" href="/profile"><span>Profile</span></a>
+            <a class="nav-item" href="/users/{{Auth::user()->id}}?tab=profile"><span>Profile</span></a>
             <a class="nav-item create-btn" href="/questions/create"><span>Create Question</span></a>
         @else
             <a class="nav-item" href="/login"><span>Log in</span></a>
@@ -49,7 +49,36 @@
     </main>
 
     <footer>
-
+        <div class="row">
+            <div class="col-md-2">
+                <ul>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <ul>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <ul>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="text-center">
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                    <li>Lorem ipsum dolor.</li>
+                </ul>
+            </div>
+        </div>
     </footer>
 
 

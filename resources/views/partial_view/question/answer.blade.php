@@ -24,17 +24,18 @@
             </div>
         </div>
         <br>
-        @if($question->user->id == Auth::user()->id)
-            <button
-                    data-target-id="{{$answer->id}}"
-                    class="useful-btn
-                    @if($answer->isUseful == '1')
-                         useful
-                    @endif
-                    "
-            >Useful</button>
-        @endif
-
+        @auth
+            @if($question->user->id == Auth::user()->id)
+                <button
+                        data-target-id="{{$answer->id}}"
+                        class="useful-btn
+                        @if($answer->isUseful == '1')
+                             useful
+                        @endif
+                        "
+                >Useful</button>
+            @endif
+        @endauth
     </div>
     <div class="answer-body">
         <div class="author">

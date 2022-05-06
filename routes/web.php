@@ -29,10 +29,11 @@ Route::post('/session', [AuthController::class, 'getSession']);
 
 
 
+Route::get('/users/{userId}', [AccountController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/profile', [AccountController::class, 'index']);
+
 
     Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
     Route::post('ckeditor/remove ', [CKEditorController::class, 'remove'])->name('remove_upload');

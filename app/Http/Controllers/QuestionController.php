@@ -64,6 +64,8 @@ class QuestionController extends Controller
             $answer->dislikeCount =  $answer->rates()->where('type', 'dislike')->count();
         }
 
+        $question->answers = $question->answers()->orderBy('likeCount', 'desc')->get();
+
         return view('public.question.show', compact('question'));
     }
 

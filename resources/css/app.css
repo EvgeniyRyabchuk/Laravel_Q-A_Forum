@@ -30,6 +30,17 @@
         margin: 0 auto;
     }
 
+    footer {
+        padding: 20px;
+
+        background-color: darkcyan;
+        color: white;
+    }
+
+    footer .row {
+        margin: 5px 80px;
+    }
+
 .card-body ul li {
     display: block;
     list-style-type: none;
@@ -264,6 +275,91 @@ ul, li {
     min-height: 100px;
 }
 
+.user-meta {
+    padding: 10px;
+    margin-left: 40px;
+    width: 100%;
+}
+.user-meta .col-sm-3 {
+
+    /*padding: 0 20px;*/
+}
+
+.avatar-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.avatar-wrapper > img {
+    display: block;
+}
+
+.meta-item {
+    min-width: 200px;
+    padding: 0 20px;
+    /*text-align: center;*/
+}
+
+.user-meta h1 {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.user-meta ul {
+  width: 800px;
+}
+
+
+
+
+.profile-tab {
+    margin: 20px 0;
+}
+.profile-tab .active {
+    background: orange;
+}
+.profile-tab .active a {
+    color: white;
+}
+
+.profile-tab li {
+    display: inline-block;
+    border-radius: 20px;
+    color: gray;
+    padding: 5px 20px;
+    margin: 0 5px;
+    border: 2px dashed black;
+    cursor: pointer;
+}
+
+
+.profile-tab a:hover {
+  color: white;
+}
+
+.profile-tab li:hover {
+    background-color: darkgray;
+    border: 1px solid white;
+}
+.profile-tab .active:hover {
+    background-color: orange;
+    color: white;
+    border: 2px dashed black;
+}
+
+
+.profile-large-content {
+    border: 2px solid cadetblue;
+    padding: 40px 20px;
+    text-align: center;
+
+}
+
+.max-inn-content {
+    width: 500px;
+}
+
+
 
 @media screen and (max-width: 1400px) {
     main {
@@ -274,6 +370,54 @@ ul, li {
         width: 100%;
     }
     .card-q {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .user-meta ul li {
+        min-width: 100px;
+    }
+    .user-meta { width: 100%; }
+
+
+}
+
+@media screen and (max-width: 768px) {
+      .profile-head {
+          display: block !important;
+      }
+    .avatar-wrapper {
+        margin: 20px 10px;
+    }
+    .avatar-wrapper img {
+        width: 250px;
+        height: 250px;
+    }
+    .avatar-wrapper {
+        justify-content: center;
+    }
+    main > h1 {
+        text-align: center;
+    }
+    main {
+        margin-top: 20px;
+        padding: 5px;
+    }
+    .user-meta {
+        margin: 0;
+    }
+    .meta-item {
+        padding: 0 20px !important;
+    }
+    .user-meta ul li {
+
+        min-width: auto;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .user-meta ul {
         width: 100%;
     }
 }

@@ -10,16 +10,18 @@
                 User: <a href="user/{{$question->user->id}}"> {{$question->user->name}} </a>
             </div>
             <div class="q-date">{{$question->created_at}}</div>
-            @if(Auth::check() && Auth::user()->id == $question->user->id)
-                <div class="right-question-action d-flex">
-                    <a class="btn btn-warning" style="margin-right: 10px;" href="./{{$question->id}}/edit">Edit</a>
-                    <form action="/questions/{{$question->id}}" method="post">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
-            @endif
+            @auth
+                @if(Auth::user()->id == $question->user->id)
+                    <div class="right-question-action d-flex">
+                        <a class="btn btn-warning" style="margin-right: 10px;" href="./{{$question->id}}/edit">Edit</a>
+                        <form action="/questions/{{$question->id}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                @endif
+            @endauth
         </div>
         <hr>
         <div class="q-body">
@@ -266,5 +268,5 @@
     //TODO: beforeunload if file exist and delete adapter
 
     //TODO: search profile, tags, questions
-    //TODO: sort question by rate
+
 </script>
