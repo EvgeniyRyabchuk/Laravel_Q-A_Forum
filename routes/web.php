@@ -42,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/answers/{answerId}/useful', [QuestionController::class, 'markAsUseful']);
 
+    Route::match(['put', 'patch'],'/users/{id}', [AccountController::class, 'update']);
+    Route::get('/users/{id}/edit', [AccountController::class, 'edit']);
+
+
 });
 
 

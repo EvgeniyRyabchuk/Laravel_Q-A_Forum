@@ -30,6 +30,7 @@ class StaticUserCreator extends StaticCreator
 
         $userId =  User::create([
             'name' => "Name 1",
+            'about' => $faker->text(1000),
             'email' => 'jeka.rubchuk@gmail.com',
             'email_verified_at' => now(),
             'password' => $defaulPassword,
@@ -38,6 +39,7 @@ class StaticUserCreator extends StaticCreator
 
         $adminId =  User::create([
             'name' => $faker->name(),
+            'about' => $faker->text(1000),
             'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => $defaulPassword,
@@ -46,6 +48,7 @@ class StaticUserCreator extends StaticCreator
 
         $superUserId = User::create([
             'name' => $faker->name(),
+            'about' => $faker->text(1000),
             'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => $defaulPassword,

@@ -87,7 +87,7 @@ class AuthController extends Controller
         Auth::login($user);
         $ticket = \App\_SL\TicketGenerator::getTicket($user, $remember_me);
         $encryptTcket = $encryptTicket = Crypt::encrypt($ticket);
-        return redirect('/profile')->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));
+        return redirect("/users/$user->id")->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));
     }
 
     public function logout(Request $request) {

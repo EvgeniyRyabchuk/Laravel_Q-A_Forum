@@ -26,6 +26,7 @@
 
     main {
         width: 1400px;
+        min-height: calc(100vh - 79px);
         padding: 30px;
         margin: 0 auto;
     }
@@ -357,6 +358,13 @@ ul, li {
 
 .max-inn-content {
     width: 500px;
+}
+
+.badges-item {
+    min-width: 200px;
+    flex-grow: 1;
+    border: 1px solid gray;
+    text-align: center;
 }
 
 
