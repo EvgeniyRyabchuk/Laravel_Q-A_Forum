@@ -280,10 +280,20 @@ ul, li {
     padding: 10px;
     margin-left: 40px;
     width: 100%;
+    position: relative;
 }
+
+
 .user-meta .col-sm-3 {
 
     /*padding: 0 20px;*/
+}
+
+#editLink {
+    position: absolute;
+    right: 0;
+    top: 0;
+
 }
 
 .avatar-wrapper {

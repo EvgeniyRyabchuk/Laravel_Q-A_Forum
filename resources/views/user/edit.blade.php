@@ -17,14 +17,12 @@
             @endif
         </p>
 
-        {{-- //TODO: set selected image  --}}
-
         <form action="/users/{{$user->id}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="col-md-12 mb-3">
-                <img src="/storage/{{$user->avatar}}" alt="" width="200" height="200">
+                <img id="avatarPreview" src="/storage/{{$user->avatar}}" alt="" width="200" height="200">
 
                 <p class="mt-3">Change avatar</p>
                 <input type="file" name="avatar" id="avatar" />
@@ -52,4 +50,25 @@
 
         </form>
     </div>
+
+    <script>
+        document.getElementById('avatar').onchange = function (evt) {
+            let tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+            // FileReader support
+            if (FileReader && files && files.length) {
+                let fr = new FileReader();
+                fr.onload = function () {
+                    document.getElementById('avatarPreview').src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
+            }
+            // Not supported
+            else {
+                // fallback -- perhaps submit the input to an iframe and temporarily store
+                // them on the server until the user's session ends.
+            }
+        }
+    </script>
+
 @endsection

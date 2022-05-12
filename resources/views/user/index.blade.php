@@ -30,6 +30,8 @@
                 <li class="meta-item">some-text</li>
                 <li class="meta-item">some-text</li>
             </ul>
+
+            <a id="editLink" href="/users/{{$user->id}}/edit" class="btn btn-secondary">Edit profile</a>
         </div>
     </div>
 
