@@ -19,54 +19,61 @@ use App\Http\Controllers\CKEditorController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/login', [HomeController::class, 'login']);
-Route::get('/registrate', [HomeController::class, 'registrate']);
-Route::get('/about', [HomeController::class, 'about']);
-
-Route::post('/registrate', [AuthController::class, 'registrate']);
-Route::post('/session', [AuthController::class, 'getSession']);
+Route::redirect('/', '/en');
 
 
+Route::prefix('{lang}')->group(function () {
 
-Route::get('/users/{userId}', [AccountController::class, 'index']);
+    Route::get('/users', [AccountController::class, 'index'])->name('users');
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/login', [HomeController::class, 'login'])->name('login');
+    Route::get('/registrate', [HomeController::class, 'registrate'])->name('registrate');
+    Route::get('/about', [HomeController::class, 'about'])->name('about');
 
+    Route::post('/registrate', [AuthController::class, 'registrate'])->name('users.store');
+    Route::post('/session', [AuthController::class, 'getSession'])->name('session.store');
 
-    Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
-    Route::post('ckeditor/remove ', [CKEditorController::class, 'remove'])->name('remove_upload');
+    Route::get('/users/{userId}', [AccountController::class, 'index'])->name('users.show');
 
-    Route::post('/rate/{targetId}', [RateController::class, 'simpleRate']);
-
-    Route::post('/answers/{answerId}/useful', [QuestionController::class, 'markAsUseful']);
-
-    Route::match(['put', 'patch'],'/users/{id}', [AccountController::class, 'update']);
-    Route::get('/users/{id}/edit', [AccountController::class, 'edit']);
-
-
-});
-
-
-Route::prefix('questions')->group(function () {
     Route::middleware(['auth'])->group(function () {
-        Route::match(['put', 'patch'], '/{id}', [QuestionController::class, 'update']); // edit post
-        Route::get('/create', [QuestionController::class, 'create']);
-        Route::get('/{id}/edit', [QuestionController::class, 'edit']); // show edit post from
-        Route::post('/', [QuestionController::class, 'store']); // add post
-        Route::delete('/{id}', [QuestionController::class, 'destroy']); // delete post
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-        Route::post('/{questionId}/answer', [QuestionController::class, 'postAnswer']);
-        Route::post('/{questionId}/answers/{answerId}/comments', [QuestionController::class, 'postAnswerComment']);
+        Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
+        Route::post('ckeditor/remove ', [CKEditorController::class, 'remove'])->name('remove_upload');
+
+        Route::post('/rate/{targetId}', [RateController::class, 'simpleRate'])->name('rate.store');
+
+        Route::post('/answers/{answerId}/useful', [QuestionController::class, 'markAsUseful'])->name('answers.markAsUseful');
+
+        Route::match(['put', 'patch'],'/users/{id}', [AccountController::class, 'update'])->name('users.update');
+        Route::get('/users/{id}/edit', [AccountController::class, 'edit'])->name('users.edit');
+
+
     });
 
 
+    Route::prefix('questions')->group(function () {
+        Route::middleware(['auth'])->group(function () {
+            Route::match(['put', 'patch'], '/{id}', [QuestionController::class, 'update'])->name('questions.update'); // edit post
 
-    Route::get('/', [QuestionController::class, 'index']); // show all posts
-    Route::get('/{id}', [QuestionController::class, 'show'])->middleware('viewCount'); // show open post
+            Route::get('/create', [QuestionController::class, 'create'])->name('questions.create');
+            Route::get('/{id}/edit', [QuestionController::class, 'edit'])->name('questions.edit'); // show edit questions from
+            Route::post('/', [QuestionController::class, 'store'])->name('questions.store'); // add questions
+            Route::delete('/{id}', [QuestionController::class, 'destroy'])->name('questions.destroy'); // delete questions
+
+
+            Route::post('/{questionId}/answer', [QuestionController::class, 'postAnswer'])->name('questions.answers.postAnswer');;
+            Route::post('/{questionId}/answers/{answerId}/comments', [QuestionController::class, 'postAnswerComment'])->name('questions.answers.comments.postAnswerComment');;
+        });
+
+
+
+        Route::get('/', [QuestionController::class, 'index'])->name('questions');; // show all posts
+        Route::get('/{id}', [QuestionController::class, 'show'])->middleware('viewCount')->name('questions.show');; // show open post
+
+    });
 
 });
-
 

@@ -39,7 +39,7 @@
     </div>
     <div class="answer-body">
         <div class="author">
-            <a href="/user/{{$answer->user->id ?? ''}}">User: {{$answer->user->name ?? ''}}</a>
+            <a href="{{route('users.show', [app()->getLocale(), ["userId" => $answer->user->id]])}}">User: {{$answer->user->name ?? ''}}</a>
         </div>
         <div class="answer-text">
             {!!  $answer->text ?? '' !!}
@@ -50,7 +50,13 @@
         </div>
 
         <div class="comment-form" contentEditable>
-            <form class="postCommentForm" action="{{ isset($answer) ? url("/questions/$question->id/answers/$answer->id/comments") : '' }}" method="post">
+            <form class="postCommentForm"
+                  action="{{isset($answer) ?
+                  route('questions.answers.comments.postAnswerComment', [app()->getLocale(), [
+                        "questionId" => $question->id,
+                        "answerId" => $answer->id]]): '' }}"
+                  method="post">
+
                 @csrf
                 <input id="answerId" type="hidden" value="{{$answer->id}}">
                 <textarea name="text" id="text"></textarea>

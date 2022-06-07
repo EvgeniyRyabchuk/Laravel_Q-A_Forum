@@ -6,6 +6,7 @@ use App\Http\Requests\RegistrateRequest;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
@@ -87,7 +88,11 @@ class AuthController extends Controller
         Auth::login($user);
         $ticket = \App\_SL\TicketGenerator::getTicket($user, $remember_me);
         $encryptTcket = $encryptTicket = Crypt::encrypt($ticket);
-        return redirect("/users/$user->id")->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));
+
+
+        return redirect()
+            ->route('users.show', ["lang" => App::getLocale(), "userId" => $user->id])
+            ->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));
     }
 
     public function logout(Request $request) {

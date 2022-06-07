@@ -41,6 +41,7 @@ class HomeController extends Controller
     }
 
     public function about(Request $request) {
+
 //        $question = Question::findOrFail(1);
 //
 //        $user = $question->user;
@@ -53,7 +54,7 @@ class HomeController extends Controller
 //        $value = $request->session()->all();
 //        dd($request->cookie('remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'));
 //        dd(Session::getId());
-//        return view('public.about');
+        return view('public.about');
     }
 
 }

@@ -18,6 +18,8 @@
     @yield('head-js')
 </head>
 <body>
+
+    <h1> {{ __('welcome') }}</h1>
 <style>
     .create-btn {
         background-color: cornflowerblue;
@@ -31,17 +33,18 @@
     <header>
         <a class="nav-item" href="/"><span>Main</span></a>
         @if (Auth::check())
-            <form action="/logout" method="POST">
+            <form action="{{ route('logout', app()->getLocale()) }}" method="POST">
                 <button class="nav-item" >Log out</button>
             </form>
-            <a class="nav-item" href="/users/{{Auth::user()->id}}?tab=profile"><span>Profile</span></a>
-            <a class="nav-item create-btn" href="/questions/create"><span>Create Question</span></a>
+            <a class="nav-item"
+               href="{{ route('users.show', ["lang" => app()->getLocale(), 'userId' => Auth::user()->id, "tab" => "profile"]) }}"><span>Profile</span></a>
+            <a class="nav-item create-btn" href="{{ route('questions.create', app()->getLocale()) }}"><span>Create Question</span></a>
         @else
-            <a class="nav-item" href="/login"><span>Log in</span></a>
-            <a class="nav-item" href="/registrate"><span>Registration</span></a>
+            <a class="nav-item" href="{{ route('login', app()->getLocale()) }}"><span>Log in</span></a>
+            <a class="nav-item" href="{{ route('registrate', app()->getLocale()) }}"><span>Registration</span></a>
         @endif
 
-        <a class="nav-item" href="about"><span>About</span></a>
+        <a class="nav-item" href="{{ route('about', app()->getLocale()) }}"><span>About</span></a>
     </header>
 
     <main>

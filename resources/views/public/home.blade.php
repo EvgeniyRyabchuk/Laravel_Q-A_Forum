@@ -35,7 +35,7 @@
                         <div class="q-date">{{ $question->created_at }}</div>
                     </div>
                     <h5 class="card-title">
-                        <a href="./questions/{{ $question->id }}">
+                        <a href="{{ route('questions.show', ["lang" => app()->getLocale(), "id" => $question->id]) }}">
                           {{ $question->title }}
                         </a>
 

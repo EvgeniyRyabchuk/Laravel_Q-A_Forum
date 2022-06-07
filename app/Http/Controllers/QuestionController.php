@@ -53,8 +53,9 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($lang, $id)
     {
+
         $question = Question::findOrFail($id);
         $question->likeCount = $question->rates()->where('type', 'like')->count();
         $question->dislikeCount =  $question->rates()->where('type', 'dislike')->count();
@@ -75,7 +76,7 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($lang, $id)
     {
         $question = Question::findOrFail($id);
         return view('public.question.edit', compact('question'));
@@ -89,7 +90,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private function save($question, Request $request) {
+    private function save(Request $request, $lang, $question) {
         $question->title = $request->input('title');
         $question->text = $request->input('summary-ckeditor');
         $question->save();
@@ -113,7 +114,7 @@ class QuestionController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $lang, $id)
     {
 //        dd($request->all());
         $question = Question::findOrFail($id);
@@ -127,7 +128,7 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($lang, $id)
     {
         $question = Question::findOrFail($id);
         $question->delete();
@@ -136,7 +137,7 @@ class QuestionController extends Controller
 
 
 
-    public function postAnswer(Request $request, $questionId) {
+    public function postAnswer(Request $request, $lang, $questionId) {
         $text = $request->post('summary-ckeditor');
         $user = Auth::user();
         $question = Question::findOrFail($questionId);
@@ -153,7 +154,7 @@ class QuestionController extends Controller
         ], 201);
     }
 
-    public function postAnswerComment(Request $request, $questionId, $answerId) {
+    public function postAnswerComment(Request $request, $lang, $questionId, $answerId) {
         $text = $request->post('text');
         $user = Auth::user();
         $answer = Answer::findOrFail($answerId);
@@ -171,7 +172,7 @@ class QuestionController extends Controller
         ], 201);
     }
 
-    public function markAsUseful(Request $request, $answerId) {
+    public function markAsUseful(Request $request, $lang, $answerId) {
         $answer = Answer::findOrFail($answerId);
         $answer->isUseful = '1';
         $answer->save();

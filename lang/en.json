@@ -3,5 +3,11 @@
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
-    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute."
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
+
+    "welcome": "Hello to the Q&A Forum",
+    "aboutMessage": "Hello there",
+    "About this site": "About this site",
+    "This is test web site for check cookies auth method": "This is test web site for check cookies auth method",
+    "Check out my github profile for more details about me - EvgeniyRyabchuk": "Check out my github profile for more details about me - EvgeniyRyabchuk"
 }

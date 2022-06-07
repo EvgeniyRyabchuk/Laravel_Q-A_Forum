@@ -25,13 +25,14 @@ class AccountController extends Controller
             }
 //        $timespan = microtime();
     */
-    public function index(Request $request, $id) {
+    public function index(Request $request, $lang, $id) {
         $user = User::findOrFail($id);
+
         $tab = $request->get('tab');
         return view("user.index", compact('user', 'tab'));
     }
 
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $lang,  $id) {
 
         $user = User::findOrFail($id);
         if($user->id != $id)
@@ -40,7 +41,7 @@ class AccountController extends Controller
         return view('user.edit', compact('user'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $lang, $id) {
         //TODO: compress
         $request->validate([
             'name' => 'required|min:2|max:200',

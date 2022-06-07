@@ -11,7 +11,7 @@ class RateController extends Controller
 {
     //TODO: check if rate already exist by user
     // simple rate - like or dislike
-    public function simpleRate(Request $request, $targetId)
+    public function simpleRate(Request $request, $lang, $targetId)
     {
         $user = Auth::user();
         $rateType = $request->post('rateType');
