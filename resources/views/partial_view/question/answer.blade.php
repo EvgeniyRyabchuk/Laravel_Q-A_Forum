@@ -1,4 +1,5 @@
 
+
 <li class="answer">
     <div class="left-side">
         <div class="d-flex">
@@ -39,7 +40,7 @@
     </div>
     <div class="answer-body">
         <div class="author">
-            <a href="{{route('users.show', [app()->getLocale(), ["userId" => $answer->user->id]])}}">User: {{$answer->user->name ?? ''}}</a>
+            <a href="{{route('users.show', ["lang" => app()->getLocale(), "userId" => $answer->user->id])}}">User: {{$answer->user->name ?? ''}}</a>
         </div>
         <div class="answer-text">
             {!!  $answer->text ?? '' !!}
@@ -52,9 +53,10 @@
         <div class="comment-form" contentEditable>
             <form class="postCommentForm"
                   action="{{isset($answer) ?
-                  route('questions.answers.comments.postAnswerComment', [app()->getLocale(), [
+                  route('questions.answers.comments.postAnswerComment', [
+                        app()->getLocale(),
                         "questionId" => $question->id,
-                        "answerId" => $answer->id]]): '' }}"
+                        "answerId" => $answer->id ]): '' }}"
                   method="post">
 
                 @csrf

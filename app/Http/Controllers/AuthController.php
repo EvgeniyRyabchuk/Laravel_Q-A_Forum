@@ -24,7 +24,8 @@ class AuthController extends Controller
         // ->header('Content-Type', 200)
         // ->cookie('name', 'value', 3);
 
-        $ticket = \App\_SL\TicketGenerator::getTicket($user);
+        $remember_me = $request->post('remember_me');
+        $ticket = \App\_SL\TicketGenerator::getTicket($user, $remember_me);
         $encryptTcket = Crypt::encrypt($ticket);
         Auth::login($user);
         return redirect('/')->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));

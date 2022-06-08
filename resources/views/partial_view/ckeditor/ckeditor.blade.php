@@ -26,7 +26,8 @@
 {{--<button type="button" id="delete">Delete</button>--}}
 
 <script>
-    var uploadUlr = "{{route('upload', app()->getLocale())}}";
+    var uploadUlr = "{{route('upload',  [ "lang" => app()->getLocale() ])}}";
+    console.log('upl', uploadUlr)
 </script>
 {{--    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>--}}
 <script src="/ckeditor/ckeditor.js"></script>
@@ -42,7 +43,10 @@
         });
 
         try {
-            const data = await fetch('{{ route('remove_upload', app()->getLocale()) }}', {
+            {{--const url = "{{route('remove_upload',  [ "lang" => app()->getLocale() ])}}";--}}
+            const url = "http://127.0.0.1:8000/en/ckeditor/remove";
+            console.log("url=", url);
+            const data = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

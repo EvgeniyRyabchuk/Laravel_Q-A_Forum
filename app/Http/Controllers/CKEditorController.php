@@ -25,7 +25,7 @@ class CKEditorController extends Controller
             $filenametostore = $filename . '_' . time() . '.' . $extension;
 
             //Upload File
-            $request->file('upload')->storeAs("public/uploads/$userId", $filenametostore);
+            $request->file('upload')->storeAs("uploads/$userId", $filenametostore);
 
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
 

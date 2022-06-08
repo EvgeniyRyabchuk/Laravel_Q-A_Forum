@@ -2,8 +2,11 @@
 
 <form class="g-3"
       id="updForm"
-      action="{{ isset($question) ? route('questions.edit', [app()->getLocale(), ['questionId' => $question->id]])
-            : route('questions.create', app()->getLocale()) }}"
+      action="{{
+            isset($question) ?
+                 route('questions.update', [app()->getLocale(), 'id' => $question->id])
+            :
+            route('questions.store', ["lang" => app()->getLocale()]) }}"
       method="post">
     @method(isset($question) ? 'PUT' : 'POST')
     @csrf

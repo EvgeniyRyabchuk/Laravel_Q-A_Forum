@@ -38,12 +38,12 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $lang)
     {
         $question = new Question();
 //        $question->user()->associate(Auth::user());
         $question->user_id = Auth::user()->id;
-        $this->save($question, $request);
+        $this->save($request, $question);
         return redirect('/');
     }
 
@@ -60,12 +60,12 @@ class QuestionController extends Controller
         $question->likeCount = $question->rates()->where('type', 'like')->count();
         $question->dislikeCount =  $question->rates()->where('type', 'dislike')->count();
 
+        $question->answers = $question->answers()->orderBy('likeCount', 'desc')->get();
         foreach ($question->answers as $answer) {
             $answer->likeCount = $answer->rates()->where('type', 'like')->count();
             $answer->dislikeCount =  $answer->rates()->where('type', 'dislike')->count();
         }
 
-        $question->answers = $question->answers()->orderBy('likeCount', 'desc')->get();
 
         return view('public.question.show', compact('question'));
     }
@@ -90,13 +90,13 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private function save(Request $request, $lang, $question) {
+    public function save(Request $request, $question) {
         $question->title = $request->input('title');
         $question->text = $request->input('summary-ckeditor');
         $question->save();
 
         $tagsStr = $request->input('tagList');
-//        dd($tagsStr);
+
         $question->tags()->detach();
 
         if(!is_null($tagsStr)) {
@@ -116,9 +116,8 @@ class QuestionController extends Controller
 
     public function update(Request $request, $lang, $id)
     {
-//        dd($request->all());
         $question = Question::findOrFail($id);
-        $this->save($question, $request);
+        $this->save($request, $question);
         return redirect('/');
     }
 

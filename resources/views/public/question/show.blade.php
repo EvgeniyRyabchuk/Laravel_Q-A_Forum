@@ -7,14 +7,20 @@
         <h1 class="q-title">{{$question->title}}</h1>
         <div class="q-meta">
             <div class="q-name">
-                User: <a href="user/{{$question->user->id}}"> {{$question->user->name}} </a>
+                User:
+                <a href="{{route('users.show', ["lang" => app()->getLocale(), "userId" => $question->user->id ])}}">
+                    {{$question->user->name}}
+                </a>
             </div>
             <div class="q-date">{{$question->created_at}}</div>
             @auth
                 @if(Auth::user()->id == $question->user->id)
                     <div class="right-question-action d-flex">
-                        <a class="btn btn-warning" style="margin-right: 10px;" href="./{{$question->id}}/edit">Edit</a>
-                        <form action="/questions/{{$question->id}}" method="post">
+                        <a class="btn btn-warning" style="margin-right: 10px;"
+                           href="{{ route('questions.edit', ["lang" => app()->getLocale(), "id" => $question->id]) }}">
+                            Edit
+                        </a>
+                        <form action="{{ route('questions.destroy', ["lang" => app()->getLocale(), "id" => $question->user->id ]) }}" method="post">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -43,22 +49,24 @@
 
         <p><h2 class="text-center">Answers</h2></p>
         <ul class="answers">
-            @foreach($question->answers as $answer)
-                @include('.partial_view.question.answer')
-            @endforeach
+                @foreach($question->answers as $answer)
+
+                    @include('.partial_view.question.answer')
+                @endforeach
+
         </ul>
     </div>
 
     <div style="width: 1000px; margin: 0 auto;">
         <p>Your Answer</p>
 
-        <form id="postForm" action="/questions/{{$question->id}}/answer" method="post">
+        <form id="postForm" action="{{route('questions.answers.postAnswer', ["lang" => app()->getLocale(), "questionId" => $question->user->id ])}}" method="post">
             @csrf
             @include('.partial_view.ckeditor.ckeditor')
             <button type="submit" class="mt-3 btn btn-primary">Post Your Answer</button>
         </form>
         <script>
-
+            const lang = '{{ app()->getLocale() }}';
             const insertQuestionRateToHtml = (payload, rateType, target) => {
                 let spanNum = undefined;
                 if(rateType == 'like')
@@ -85,7 +93,7 @@
                 });
 
                 try {
-                    const data = await fetch(`${baseUrl}/rate/${targetId}`, {
+                    const data = await fetch(`${baseUrl}/${lang}/rate/${targetId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -112,8 +120,9 @@
 
             const markAnswerAsUseful =  async (e) => {
                 try {
+
                     const answerId = e.target.dataset.targetId;
-                    const data = await fetch(`{{ url('/') }}`+ `/answers/${answerId}/useful`, {
+                    const data = await fetch(`{{ url('/') }}/${lang}` +  `/answers/${answerId}/useful`, {
                         headers: {
                             'x-csrf-token': '{{csrf_token()}}',
                         },
@@ -138,13 +147,15 @@
 
 
             window.addEventListener('load', () => {
+
                 const postQForm = document.querySelector('#postForm');
                 postQForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     try {
                         const formData = new FormData(e.target);
                         console.log(formData);
-                        const data = await fetch('{{url("questions/$question->id/answer")}}', {
+
+                        const data = await fetch('{{ url(app()->getLocale() . "/questions/$question->id/answer" )}}', {
                             headers: {
                                 'x-csrf-token': '{{csrf_token()}}',
                             },
@@ -164,7 +175,7 @@
                             authorLink.innerText = `User: ${response.answer.user.name}`;
 
                             const commentForm = elemTemplate.querySelector('.postCommentForm');
-                            commentForm.setAttribute('action', `/questions/${response.answer.id}/comment`);
+                            commentForm.setAttribute('action', `${lang}/questions/${response.answer.id}/comment`);
                             commentForm.addEventListener('submit', addCommentAjax);
                             commentForm.querySelector('#answerId').value = response.answer.id;
 
@@ -185,10 +196,11 @@
             async function addCommentAjax (e) {
                 e.preventDefault();
                 try {
+                    const lang = '{{ app()->getLocale() }}';
                     const questionId = '{{$question->id}}';
                     const answerId = e.target.querySelector('#answerId').value;
                     const baseUlr = '{{ url('/') }}';
-                    const url = baseUlr + `/questions/${questionId}/answers/${answerId}/comments`;
+                    const url = baseUlr + '/' + lang + `/questions/${questionId}/answers/${answerId}/comments`;
 
                     console.log(url);
                     const data = await fetch(url, {
@@ -256,9 +268,10 @@
         </script>
     </div>
 
-    <div class="answer-example hidden">
-        @include('.partial_view.question.answer')
-    </div>
+{{--    //TODO: ??? --}}
+{{--    <div class="answer-example hidden">--}}
+{{--        @include('.partial_view.question.answer')--}}
+{{--    </div>--}}
 
 
 @endsection

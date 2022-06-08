@@ -39,7 +39,6 @@ Route::prefix('{lang}')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
         Route::post('ckeditor/image_upload', [CKEditorController::class, 'upload'])->name('upload');
         Route::post('ckeditor/remove ', [CKEditorController::class, 'remove'])->name('remove_upload');
 
