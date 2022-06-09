@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rate extends Model
+class Visit extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'type'];
 
-    public function rateable()
+    protected $fillable = ['user_id', 'type'];
+    public function viewble()
     {
         return $this->morphTo();
     }
@@ -18,5 +18,4 @@ class Rate extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-
 }

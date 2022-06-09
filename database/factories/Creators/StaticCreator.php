@@ -117,10 +117,13 @@ abstract class StaticCreator
     {
         return $this->model::factory($count)->create()
             ->each(function ($created) use($properties, $owners, $params) {
+
                 for($i = 0; $i < count($owners); $i++) {
+
                     $owner = $this->getRandomItemOfCollection($owners[$i]);
                     $foreignKeyName = $properties[$i][0];
                     $ownerIdentiryName = $properties[$i][1];
+
                     $created->$foreignKeyName = $owner->$ownerIdentiryName;
                 }
                 $this->setParamsToModel($params, $created);

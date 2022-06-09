@@ -55,8 +55,9 @@ class QuestionController extends Controller
      */
     public function show($lang, $id)
     {
-
         $question = Question::findOrFail($id);
+        $question->visit();
+
         $question->likeCount = $question->rates()->where('type', 'like')->count();
         $question->dislikeCount =  $question->rates()->where('type', 'dislike')->count();
 

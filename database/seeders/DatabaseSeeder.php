@@ -67,12 +67,14 @@ class DatabaseSeeder extends Seeder
 
         $comments = $commentCreator->createForManyOwnersRandomlyAndManyChild([ $users, $answers ],100, [ ['user_id', 'id'],  ['answer_id', 'id'] ]);
 
+
         // create rates (this method for morph model)
         $rates = $rateCreator->createForManyOwnersRandomlyAndManyChildWithParams([$users, $questions],
             10, [['user_id', 'id'], ['rateable_id', 'id']], [ ['rateable_type', 'App\Models\Question' ]]);
 
         $rates = $rateCreator->createForOneOwnerAndManyChildWithParams([$questions[0], $users[0]],
             100, [ ['rateable_id', 'id'],  ['user_id', 'id'] ], [ ['rateable_type', 'App\Models\Question' ]]);
+
     }
 
 

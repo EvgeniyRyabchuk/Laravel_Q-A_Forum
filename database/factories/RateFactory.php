@@ -19,7 +19,7 @@ class RateFactory extends Factory
         $type = ['like', 'dislike'];
 
         return [
-            'user_id' => '10',
+            'user_id' => '1',
             'type' => $type[rand(0, 1)],
             'rateable_id' => '1',
             'rateable_type' => 'asdgdsfgfb'
