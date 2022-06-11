@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Session;
 class HomeController extends Controller
 {
     public function index(Request $request) {
+//        $locales = config('app.locales');
+//        foreach (config('app.locales') as $key => $value) {
+//
+//           dd($key, $value);
+//        }
+
         $defaultPerPage = 5;
         $perPage = $request->get('perPage') ?? $defaultPerPage;
 

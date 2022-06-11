@@ -17,7 +17,7 @@ class RateController extends Controller
         $rateType = $request->post('rateType');
         $rateTarget = $request->post('rateTarget');
 
-        $model = Utils::getModelByTablename($rateTarget);
+        $model = Utils::getModelByTableName($rateTarget);
         $target = $model::findOrFail($targetId);
 //        $rate = new Rate();
 //        $rate->user()->save($user);

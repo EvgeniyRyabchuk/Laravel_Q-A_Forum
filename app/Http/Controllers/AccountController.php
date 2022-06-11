@@ -25,11 +25,15 @@ class AccountController extends Controller
             }
 //        $timespan = microtime();
     */
-    public function index(Request $request, $lang, $id) {
+    public function index(Request $request, $lang) {
+
+    }
+
+    public function show(Request $request, $lang, $id) {
         $user = User::findOrFail($id);
 
         $tab = $request->get('tab');
-        return view("user.index", compact('user', 'tab'));
+        return view("user.show", compact('user', 'tab'));
     }
 
     public function edit(Request $request, $lang,  $id) {
@@ -82,7 +86,7 @@ class AccountController extends Controller
         }
 
         $user->save();
-        return view('user.index', compact('user'));
+        return view('user.show', compact('user'));
     }
 
 }

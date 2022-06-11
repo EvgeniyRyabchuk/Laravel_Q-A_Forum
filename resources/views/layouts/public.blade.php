@@ -19,7 +19,6 @@
 </head>
 <body>
 
-    <h1> {{ __('welcome') }}</h1>
 <style>
     .create-btn {
         background-color: cornflowerblue;
@@ -31,7 +30,7 @@
     }
 </style>
     <header>
-        <a class="nav-item" href="/"><span>Main</span></a>
+        <a class="nav-item" href="{{route('home', app()->getLocale())}}"><span>Main</span></a>
         @if (Auth::check())
             <form action="{{ route('logout', app()->getLocale()) }}" method="POST">
                 <button class="nav-item" >Log out</button>
@@ -45,6 +44,25 @@
         @endif
 
         <a class="nav-item" href="{{ route('about', app()->getLocale()) }}"><span>About</span></a>
+
+
+        <select style="width: 150px" class="form-select" aria-label="Select Lang" id="langSelect">
+            @foreach (config('app.locales') as $key => $value)
+                <option {{ $key == app()->getLocale() || $key == config('app.locale') ? 'selected' : false }}
+                 value="{{$key}}">
+                    {{$value}}
+                </option>
+            @endforeach
+        </select>
+
+        <script>
+            document.querySelector('#langSelect').addEventListener('change', async (e) => {
+                const lang = e.target.value;
+                const path = location.pathname.split('/').filter(e => e != '{{app()->getLocale()}}').join('/');
+                const url = `/${lang}${path}`;
+                window.location.href = `/${lang}${path}`;
+            })
+        </script>
     </header>
 
     <main>

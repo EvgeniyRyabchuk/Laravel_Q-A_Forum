@@ -17,7 +17,7 @@
             @endif
         </p>
 
-        <form action="/users/{{$user->id}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.update', ['lang' => app()->getLocale(), 'id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

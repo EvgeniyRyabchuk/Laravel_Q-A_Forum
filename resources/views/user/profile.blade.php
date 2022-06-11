@@ -28,7 +28,7 @@
                     <h3>About</h3>
                     <div class="profile-large-content mb-5">
                         <div class="mx-auto max-inn-content">
-                            Your about me section is currently blank. Would you like to add one? <a href="/users/{{$user->id}}/edit">Edit
+                            Your about me section is currently blank. Would you like to add one? <a href="{{route('users.edit', [ 'lang' => app()->getLocale(), 'id' => $user->id])}}">Edit
                                 profile</a>
                         </div>
                     </div>

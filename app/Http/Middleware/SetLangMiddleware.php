@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use App\_SL\Utils;
 
 class SetLangMiddleware
 {
@@ -17,14 +20,32 @@ class SetLangMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $lang = $request->route('lang');
+        $langSession = Session::get("lang");
+        $langRequest = $request->route('lang');
 
-        if(is_null($lang)) {
-            \App::setLocale($request->getPreferredLanguage());
+        if(!is_null($langSession)) {
+            if($langRequest != null) {
+                if($langRequest != $langSession) {
+                    $langSession = $langRequest;
+                }
+            }
+            Utils::setLang($langSession);
         }
-
-        \App::setLocale($lang);
+        else {
+            if($langRequest == null) {
+                $path = \Illuminate\Support\Facades\Request::path();
+                $lang = Utils::setLang();
+                $url = '/' . $lang . $path;
+                return response()->redirectTo($url);
+            }
+            else {
+                Utils::setLang($langRequest);
+            }
+        }
 
         return $next($request);
     }
+
+
+
 }
