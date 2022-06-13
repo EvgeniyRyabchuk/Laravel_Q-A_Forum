@@ -50,6 +50,8 @@ Route::prefix('{lang}')->group(function () {
     Route::get('/users/{userId}', [AccountController::class, 'show'])->name('users.show');
     Route::get('/users/{userId}/posts', [AccountController::class, 'posts'])->name('users.posts.short');
 
+    Route::get('/users/{userId}/setting', [AccountController::class, 'setting'])->name('users.setting');
+
     Route::middleware(['auth'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

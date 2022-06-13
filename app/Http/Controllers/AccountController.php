@@ -29,6 +29,21 @@ class AccountController extends Controller
             }
 //        $timespan = microtime();
     */
+
+    public $tabList = [
+        'profile' => [ 'profile'],
+        'activity' => [
+            'summary',
+            'answers',
+            'questions'
+        ],
+        'setting' => [
+            'preferences',
+            'edit-email',
+            'delete-account'
+        ]
+    ];
+
     public function index(Request $request, $lang) {
 
     }
@@ -39,11 +54,18 @@ class AccountController extends Controller
 
         if($tab == 'profile' || $tab == null) {
             $questions = $this->getPosts('all', 'newest', 'desc', $id, 5);
-
-            return view("user.show", compact('user', 'tab', 'questions'));
+            return view("user.show", compact('user', 'tab', 'questions') + ['tabList' => $this->tabList]);
         }
 
-        return view("user.show", compact('user', 'tab'));
+        return response()->view('user.show', compact('user', 'tab') + ['tabList' => $this->tabList]);
+    }
+
+    public function setting(Request $request, $lang, $userId)
+    {
+        $tab = $request->input('tab');
+        $user = User::findOrFail($userId);
+
+        return response()->view('user.setting', compact('user', 'tab') + ['tabList' => $this->tabList]);
     }
 
     public function edit(Request $request, $lang,  $id) {

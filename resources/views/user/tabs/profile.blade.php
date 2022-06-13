@@ -4,21 +4,21 @@
         <div class="col-lg-3 my-3">
             <h3>Stats</h3>
             <div class="row">
-                <div class="col col-lg-6">
+                <div class="col col-lg-6 my-3">
                     <h6>1</h6>
                     <div>Reputation</div>
                 </div>
-                <div class="col col-lg-6">
+                <div class="col col-lg-6 my-3">
                     <h6>1</h6>
-                    <div>Reputation</div>
+                    <div>reached</div>
                 </div>
-                <div class="col col-lg-6">
-                    <h6>1</h6>
-                    <div>Reputation</div>
+                <div class="col col-lg-6 my-3">
+                    <h6>{{ count($user->answers) }}</h6>
+                    <div>answers</div>
                 </div>
-                <div class="col col-lg-6">
-                    <h6>1</h6>
-                    <div>Reputation</div>
+                <div class="col col-lg-6 my-3">
+                    <h6>{{ count($user->questions) }}</h6>
+                    <div>questions</div>
                 </div>
             </div>
         </div>
