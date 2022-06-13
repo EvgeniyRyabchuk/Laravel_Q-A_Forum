@@ -407,10 +407,16 @@ ul, li {
     margin-right: 5px;
 }
 .section-head-btn {
-
+    display: flex;
+    justify-content: space-between;
+}
+.section-head-btn span {
+    display: block;
 }
 
-
+.row {
+    padding-left: 20px;
+}
 
 
 @media screen and (max-width: 1400px) {

@@ -19,10 +19,18 @@
         <div class="section-sort">
             <ul>
                 <li>
-                    <button class="section-head-btn" data-sort="score">Score</button>
+                    <button class="section-head-btn px-5" data-sort="score">
+                        Score
+                        <span class="row row-down">↓</span>
+                    </button>
+
                 </li>
                 <li>
-                    <button class="section-head-btn" data-sort="newest">Newest</button>
+                    <button class="section-head-btn px-5 " data-sort="newest">
+                        <span>Newest</span>
+                        <span class="row row-down">↓</span>
+                    </button>
+
                 </li>
             </ul>
         </div>
@@ -47,14 +55,23 @@
 <script>
     let type = "all";
     let sort = "newest";
+
+    let sortDirection = [
+        { name: 'newest', order: 'desc' },
+        { name: 'score', order: 'desc' },
+    ];
+
     const lang = `{{ app()->getLocale() }}`;
 
-    const switchPostList = async (type, sort) => {
-        console.log(type, sort);
-        const url = '{{route('users.posts.short', [
+    const switchPostList = async (type, sort = 'newest', order) => {
+        console.log(type, sort, order);
+        let url = '{{route('users.posts.short', [
                     'lang' => app()->getLocale(),
                     'userId' => $user->id,
                 ])}}' + `?type=${type}&sort=${sort}`;
+        if(order) {
+            url =  url + `&order=${order}`;
+        }
 
         const data = await fetch(url);
         const json = await data.json();
@@ -86,9 +103,35 @@
     });
     document.querySelectorAll('[data-sort]').forEach((element) => {
         element.addEventListener('click', async (e) => {
-            const target = e.target;
-            sort = target.dataset.sort;
-            switchPostList(type, sort);
+
+            if(e.currentTarget.classList.contains('section-head-btn')) {
+                console.log(e.currentTarget);
+                const target = e.currentTarget;
+                const sortName = target.dataset.sort;
+                let order = null;
+
+                for(let i of sortDirection) {
+                    if(i.name == sortName) {
+                        console.log(sortName, i.name, '==========')
+                        order = i.order;
+                        const span = target.querySelector('.row');
+                        if(i.order == 'desc') {
+                            span.className.replace('row row-up');
+                            span.innerText = '↑';
+                        }
+                        else {
+                            span.className.replace('row row-down');
+                            span.innerText = '↓';
+                        }
+
+                        i.order = i.order == 'desc' ? i.order = 'asc' : i.order = 'desc';
+                    }
+                }
+
+                sort = target.dataset.sort;
+
+                switchPostList(type, sort, order);
+            }
         });
     });
 </script>

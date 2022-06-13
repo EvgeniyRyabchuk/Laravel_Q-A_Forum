@@ -38,7 +38,7 @@ class AccountController extends Controller
         $tab = $request->get('tab');
 
         if($tab == 'profile' || $tab == null) {
-            $questions = $this->getPosts('all', 'newest', $id, 5);
+            $questions = $this->getPosts('all', 'newest', 'desc', $id, 5);
 
             return view("user.show", compact('user', 'tab', 'questions'));
         }
@@ -96,17 +96,17 @@ class AccountController extends Controller
     }
 
     public function posts(Request $request, $lang, $userId) {
-
         $user = User::findOrFail($userId);
         $postType = $request->input('type');
         $postSort = $request->input('sort');
+        $order = $request->input('order') ?? 'desc';
 
-        $posts = $this->getPosts($postType, $postSort, $userId, 5);
+        $posts = $this->getPosts($postType, $postSort, $order, $userId, 5);
         return response()->json($posts, 201);
     }
 
 
-    private function getPosts($type, $sort, $userId, $perPage) {
+    private function getPosts($type, $sort, $order, $userId, $perPage) {
         switch ($type)
         {
             case 'all':
@@ -122,7 +122,6 @@ class AccountController extends Controller
                 break;
             case 'answers':
                 $userAnswers = Answer::where('user_id', $userId)->get();
-
                 $posts = \Illuminate\Database\Eloquent\Collection::make(new Question);
                 foreach ($userAnswers as $answer) {
                     $question = $answer->question;
@@ -134,12 +133,16 @@ class AccountController extends Controller
             switch ($sort) {
                 case 'newest':
                     //TODO: why here appear problem with return type in Collection sortBy
-                    $posts = $posts->sortByDesc(function ($item) {
-                        return $item['created_at'];
-                    })->values();
+                    if($order == 'desc')
+                        $posts = $posts->sortByDesc('created_at')->values();
+                    else if ($order = 'asc')
+                        $posts = $posts->sortBy('created_at')->values();
                     break;
                 case 'score':
-                    $posts = $posts->sortByDesc('id')->values();
+                    if($order == 'desc')
+                        $posts = $posts->sortByDesc('id')->values();
+                    else if ($order = 'asc')
+                        $posts = $posts->sortBy('id')->values();
                     break;
             }
         }
