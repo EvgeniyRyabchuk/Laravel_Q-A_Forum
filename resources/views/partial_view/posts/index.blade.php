@@ -21,14 +21,14 @@
                 <li>
                     <button class="section-head-btn px-5" data-sort="score">
                         Score
-                        <span class="row row-down">↓</span>
+                        <span class="arrow arrow-down">↓</span>
                     </button>
 
                 </li>
                 <li>
                     <button class="section-head-btn px-5 " data-sort="newest">
                         <span>Newest</span>
-                        <span class="row row-down">↓</span>
+                        <span class="arrow arrow-down">↓</span>
                     </button>
 
                 </li>
@@ -114,13 +114,16 @@
                     if(i.name == sortName) {
                         console.log(sortName, i.name, '==========')
                         order = i.order;
-                        const span = target.querySelector('.row');
+                        const span = target.querySelector('.arrow');
                         if(i.order == 'desc') {
-                            span.className.replace('row row-up');
+                            for(let i of document.querySelectorAll('.arrow')) {
+                                i.innerText = '';
+                            }
+                            span.className.replace('arrow arrow-up');
                             span.innerText = '↑';
                         }
                         else {
-                            span.className.replace('row row-down');
+                            span.className.replace('arrow arrow-up');
                             span.innerText = '↓';
                         }
 
