@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class Utils {
-    public static function  getModelByTableName($tableName) {
+
+    public static function getModelByTableName($tableName) {
         $folderName = 'App\\Models';
         $name =  $folderName . '\\' . Str::studly(strtolower(STR::singular($tableName)));
 

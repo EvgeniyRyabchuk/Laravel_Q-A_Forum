@@ -31,7 +31,7 @@
                 <li class="meta-item">some-text</li>
             </ul>
 
-            <a id="editLink" href="/users/{{$user->id}}/edit" class="btn btn-secondary">Edit profile</a>
+            <a id="editLink" href="{{route('users.edit', [ 'lang' => app()->getLocale(), 'id' => $user->id])}}" class="btn btn-secondary">Edit profile</a>
         </div>
     </div>
 

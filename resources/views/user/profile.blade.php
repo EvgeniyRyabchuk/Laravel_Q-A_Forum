@@ -27,27 +27,41 @@
                 <div class="col-lg-12">
                     <h3>About</h3>
                     <div class="profile-large-content mb-5">
-                        <div class="mx-auto max-inn-content">
-                            Your about me section is currently blank. Would you like to add one? <a href="{{route('users.edit', [ 'lang' => app()->getLocale(), 'id' => $user->id])}}">Edit
-                                profile</a>
+                        <div class="mx-auto max-inn-content about-content">
+
+                            @empty($user->about)
+                                Your about me section is currently blank. Would you like to add one?
+                                <a href="{{route('users.edit', [ 'lang' => app()->getLocale(), 'id' => $user->id])}}">
+                                    Edit profile
+                                </a>
+                            @endempty
+
+                            @isset($user->about)
+                                    <style>
+                                        .about-content {
+                                            margin: 0;
+                                            width: auto;
+                                            max-width: 100%;
+                                            text-align: left;
+                                            overflow-wrap: break-word;
+                                        }
+                                    </style>
+                                {{ $user->about }}
+                            @endisset
                         </div>
                     </div>
                 </div>
+{{--                <div class="col-lg-12">--}}
+{{--                    <h3>Badges</h3>--}}
+{{--                    <div class="profile-large-content mb-5">--}}
+{{--                        <div class="mx-auto max-inn-content">--}}
+{{--                            You have not earned any <a href="">badges</a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
                 <div class="col-lg-12">
-                    <h3>Badges</h3>
-                    <div class="profile-large-content mb-5">
-                        <div class="mx-auto max-inn-content">
-                            You have not earned any <a href="">badges</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <h3>Posts</h3>
-                    <div class="profile-large-content mb-5">
-                        <div class="mx-auto max-inn-content">
-                            Just getting started? Try answering a question!
-                        </div>
-                    </div>
+                   @include('partial_view.posts.index')
                 </div>
 
 

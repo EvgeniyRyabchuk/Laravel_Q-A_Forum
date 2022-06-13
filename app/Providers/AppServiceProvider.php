@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         Paginator::useBootstrap();
 
         Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
@@ -41,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
+
     }
 }

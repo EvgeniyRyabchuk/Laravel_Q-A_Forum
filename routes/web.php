@@ -23,7 +23,9 @@ use App\_SL\Utils;
 */
 
 
-Route::redirect('/', \request()->getPreferredLanguage(array_flip(config('app.locales'))));
+//Route::redirect('/', request()->getPreferredLanguage(array_flip(config('app.locales'))) ?? '/en');
+Route::redirect('/', '/en');
+
 
 Route::post('change_lang', [LangController::class, "change"])->name('lang.change');
 
@@ -35,7 +37,6 @@ Route::prefix('{lang}')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/users', [AccountController::class, 'index'])->name('users');
 
     Route::get('/login', [HomeController::class, 'login'])->name('login');
     Route::get('/registrate', [HomeController::class, 'registrate'])->name('registrate');
@@ -44,7 +45,10 @@ Route::prefix('{lang}')->group(function () {
     Route::post('/registrate', [AuthController::class, 'registrate'])->name('users.store');
     Route::post('/session', [AuthController::class, 'getSession'])->name('session.store');
 
+
+    Route::get('/users', [AccountController::class, 'index'])->name('users');
     Route::get('/users/{userId}', [AccountController::class, 'show'])->name('users.show');
+    Route::get('/users/{userId}/posts', [AccountController::class, 'posts'])->name('users.posts.short');
 
     Route::middleware(['auth'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

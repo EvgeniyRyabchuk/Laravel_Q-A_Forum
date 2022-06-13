@@ -377,6 +377,40 @@ ul, li {
     text-align: center;
 }
 
+.section-head {
+    display: flex;
+    justify-content: space-between;
+}
+.section-head ul {
+    display: flex;
+}
+
+
+.section-head ul li button {
+    outline: none;
+    border: 1px solid darkcyan;
+    background-color: transparent;
+    padding: 5px;
+}
+.section-head ul li:hover {
+    background-color: cadetblue;
+    cursor: pointer;
+}
+.section-head ul li:hover button {
+    color: white !important;
+}
+
+
+.s-right { display: flex; }
+.section-filter, section-sort {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.section-head-btn {
+
+}
+
+
 
 
 @media screen and (max-width: 1400px) {
