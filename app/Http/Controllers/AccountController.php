@@ -71,8 +71,11 @@ class AccountController extends Controller
     public function edit(Request $request, $lang,  $id) {
 
         $user = User::findOrFail($id);
-        if($user->id != $id)
+        if($user == null)
             return '404. Page not found';
+        if($user->id != Auth::user()->id) {
+            return '404. Page not found';
+        }
 
         return view('user.edit', compact('user'));
     }
@@ -87,8 +90,11 @@ class AccountController extends Controller
 
         $user = User::findOrFail($id);
 
-        if($user->id != $id)
+        if($user == null)
             return '404. Page not found';
+        if($user->id != Auth::user()->id) {
+            return '404. Page not found';
+        }
 
 
         $name = $request->input('name');

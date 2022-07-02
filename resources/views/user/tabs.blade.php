@@ -23,7 +23,7 @@
         <ul class="d-flex flex-wrap">
             <li class="meta-item">some-text</li>
             <li class="meta-item">some-text</li>
-            <li class="meta-item">some-text</li>
+            <li class="meta-item">some-text</li>`
             <li class="meta-item">some-text</li>
         </ul>
 
@@ -36,7 +36,6 @@
 <div class="row my-3">
     <ul class="profile-tab">
 
-
         <li class="profile">
             <a href="{{ route('users.show', [ 'lang' => app()->getLocale(), 'userId' => $user->id, 'tab' => 'profile']) }}">Profile</a>
         </li>
@@ -46,8 +45,6 @@
         <li class="setting">
             <a href="{{route('users.setting', ['lang' => app()->getLocale(), 'userId' => $user->id])}}">Setting</a>
         </li>
-
-
 
         @foreach($tabList as $item)
 
