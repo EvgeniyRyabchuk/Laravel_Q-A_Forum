@@ -10,6 +10,7 @@ use App\Http\Controllers\CKEditorController;
 use App\Http\Controllers\LangController;
 use Illuminate\Http\Request;
 use App\_SL\Utils;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::post('change_lang', [LangController::class, "change"])->name('lang.change
 
 //TODO: what if lang is doesn't exist on home page
 //Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/auth/google/redirect', [AuthController::class, 'googleRedirect'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [AuthController::class, 'loginWithGoogle'])->name('auth.google.callback');
 
 Route::prefix('{lang}')->group(function () {
 
@@ -49,6 +52,8 @@ Route::prefix('{lang}')->group(function () {
     Route::get('/users', [AccountController::class, 'index'])->name('users');
     Route::get('/users/{userId}', [AccountController::class, 'show'])->name('users.show');
     Route::get('/users/{userId}/posts', [AccountController::class, 'posts'])->name('users.posts.short');
+
+
 
     Route::get('/users/{userId}/setting', [AccountController::class, 'setting'])->name('users.setting');
 

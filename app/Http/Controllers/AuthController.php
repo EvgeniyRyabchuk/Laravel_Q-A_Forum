@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -59,7 +60,7 @@ class AuthController extends Controller
         if(!$isValid) {
             $errorMessages = compact('emailNotValid', 'passwordNotValid');
             $restoredData = compact('email', 'password');
-            return view('public.login', compact('errorMessages', 'restoredData'));
+            return view('public.auth.login', compact('errorMessages', 'restoredData'));
         }
 
 
@@ -71,7 +72,7 @@ class AuthController extends Controller
         if(!$isValid) {
             $errorMessages = compact('emailNotValid', 'passwordNotValid');
             $restoredData = compact('email', 'password');
-            return view('public.login', compact('errorMessages', 'restoredData'));
+            return view('public.auth.login', compact('errorMessages', 'restoredData'));
         }
 
         // second level of validation
@@ -94,6 +95,35 @@ class AuthController extends Controller
         return redirect()
             ->route('users.show', ["lang" => App::getLocale(), "userId" => $user->id])
             ->withCookie(cookie('AUTH_TICKET', $encryptTcket, $ticket['expire']));
+    }
+
+    public function googleRedirect() {
+        return Socialite::driver('google')
+           // ->scopes() // For any extra scopes you need, see https://developers.google.com/identity/protocols/googlescopes for a full list; alternatively use constants shipped with Google's PHP Client Library
+            ->with(["access_type" => "offline", "prompt" => "consent select_account"])
+            ->redirect();
+    }
+
+    public function loginWithGoogle() {
+        // google offline auth system
+        $googleUser = Socialite::driver('google')->user();
+
+        if($googleUser) {
+            $user = User::updateOrCreate([
+                'google_id' => $googleUser->id,
+            ], [
+                'name' => $googleUser->name,
+                'email' => $googleUser->email,
+                'google_token' => $googleUser->token,
+                'google_refresh_token' => $googleUser->refreshToken,
+            ]);
+
+            Auth::login($user);
+
+//            dd($googleUser);
+            return redirect('/');
+
+        }
     }
 
     public function logout(Request $request) {

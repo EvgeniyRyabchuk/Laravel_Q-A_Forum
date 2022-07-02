@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'google_token',
+        'google_refresh_token'
     ];
 
     /**
@@ -52,7 +55,7 @@ class User extends Authenticatable
     }
 
     public function answers() {
-        return $this->hasMany(Answer::class); 
+        return $this->hasMany(Answer::class);
     }
 
     public function rates()

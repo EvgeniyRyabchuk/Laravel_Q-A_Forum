@@ -5,8 +5,17 @@
 
 @section('content')
     <div class="container">
+
+        <div class="d-flex justify-content-start">
+            <a class="text-center" href="{{ route('auth.google.redirect', [app()->getLocale()]) }}">
+                Log in with google
+            </a>
+        </div>
+
         <form action="{{route('session.store', app()->getLocale())}}" method="POST">
             @csrf
+
+
 
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>

@@ -120,7 +120,9 @@ class AccountController extends Controller
         }
 
         $user->save();
-        return view('user.show', compact('user'));
+        return response()->redirectToAction([AccountController::class, 'show'], compact('lang', )
+         + ['userId' => $id]);
+//        return view('user.show', compact('user'));
     }
 
     public function posts(Request $request, $lang, $userId) {
