@@ -24,6 +24,10 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length');
+header('Access-Control-Allow-Origin: *');
+
 //Route::redirect('/', request()->getPreferredLanguage(array_flip(config('app.locales'))) ?? '/en');
 Route::redirect('/', '/en');
 
@@ -35,6 +39,11 @@ Route::post('change_lang', [LangController::class, "change"])->name('lang.change
 //Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/auth/google/redirect', [AuthController::class, 'googleRedirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [AuthController::class, 'loginWithGoogle'])->name('auth.google.callback');
+
+//Route::get('/test_google_auth_page', function () {
+//    return response('qwe');
+//})->middleware('auth.google');
+
 
 Route::prefix('{lang}')->group(function () {
 

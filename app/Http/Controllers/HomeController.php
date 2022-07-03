@@ -17,6 +17,7 @@ class HomeController extends Controller
 //
 //           dd($key, $value);
 //        }
+        // TODO: last viewed questions in cookie
 
         $defaultPerPage = 5;
         $perPage = $request->get('perPage') ?? $defaultPerPage;

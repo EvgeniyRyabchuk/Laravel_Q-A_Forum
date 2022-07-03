@@ -105,23 +105,47 @@ class AuthController extends Controller
     }
 
     public function loginWithGoogle() {
-        // google offline auth system
+
+        //TODO: google offline auth system
+
+        // how to set expire value
+        // how to revoke access token
+        // react google auth
+
         $googleUser = Socialite::driver('google')->user();
 
         if($googleUser) {
-            $user = User::updateOrCreate([
-                'google_id' => $googleUser->id,
-            ], [
-                'name' => $googleUser->name,
-                'email' => $googleUser->email,
-                'google_token' => $googleUser->token,
-                'google_refresh_token' => $googleUser->refreshToken,
-            ]);
+            $user = User::where('email', $googleUser->email)->first();
 
+            if($user) {
+               $user->google_token = $googleUser->token;
+               $user->google_refresh_token = $googleUser->refreshToken;
+            }
+            else {
+                $user = new User();
+                $user->google_id = $googleUser->id;
+                $user->name = $googleUser->name;
+                $user->email = $googleUser->email;
+                $user->token = $googleUser->token;
+                $user->google_refresh_token = $googleUser->refreshToken;
+            }
+
+            //TODO: why not work
+//            $user = User::updateOrCreate([
+//                'google_id' => $googleUser->id,
+//            ], [
+//                'name' => $googleUser->name,
+//                'email' => $googleUser->email,
+//                'google_token' => $googleUser->token,
+//                'google_refresh_token' => $googleUser->refreshToken,
+//            ]);
+            $user->save();
             Auth::login($user);
-
+            $minutes = env('APP_AUTH_TICKET_EXPIRATION_MINUTE');
 //            dd($googleUser);
-            return redirect('/');
+//            dd($googleUser->token);
+            return redirect('/')
+                ->withCookie(cookie('refresh_token', $googleUser->refreshToken, $minutes));
 
         }
     }

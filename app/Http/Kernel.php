@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\GoogleAuthMiddleware;
 use App\Http\Middleware\SetLangMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'viewCount' =>  \App\Http\Middleware\ViewCounterMiddleware::class,
+        'auth.google' => GoogleAuthMiddleware::class
     ];
 }
