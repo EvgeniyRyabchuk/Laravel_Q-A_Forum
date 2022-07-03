@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\Rate;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
+use function Sodium\add;
 
 class HomeController extends Controller
 {
@@ -17,7 +19,25 @@ class HomeController extends Controller
 //
 //           dd($key, $value);
 //        }
-        // TODO: last viewed questions in cookie
+
+        $recentlyViewedId = json_decode(Cookie::get('last_viewed'));
+
+//        dd($recentlyViewedId);
+
+
+        if(isset($recentlyViewedId)) {
+//            $recentlyViewed = Question::whereIn('id', $recentlyViewedId)->get();
+            foreach ($recentlyViewedId as $item) {
+                $q = Question::find($item);
+                $q->text = strip_tags(\Illuminate\Support\Str::limit($q->text, 200, $end='...'));
+                $recentlyViewed[] = $q;
+            }
+            $recentlyViewed = array_reverse($recentlyViewed);
+        }
+        else {
+            $recentlyViewed = [];
+        }
+
 
         $defaultPerPage = 5;
         $perPage = $request->get('perPage') ?? $defaultPerPage;
@@ -37,7 +57,7 @@ class HomeController extends Controller
 
 //        $questions = Question::latest()->paginate(5);
 //        dd($questions->items());
-        return view('public.home', compact('questions','queryParams'));
+        return view('public.home', compact('questions','queryParams', 'recentlyViewed'));
     }
 
     public function registrate() {

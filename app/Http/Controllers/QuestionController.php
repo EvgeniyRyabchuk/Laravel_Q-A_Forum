@@ -9,6 +9,9 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
+use function Sodium\add;
 
 class QuestionController extends Controller
 {
@@ -56,6 +59,32 @@ class QuestionController extends Controller
     public function show($lang, $id)
     {
         $question = Question::findOrFail($id);
+
+        $lastViewed = Cookie::get('last_viewed');
+
+        if(is_null($lastViewed)) {
+            $lastViewed = [$question->id];
+        }
+        else {
+            $lastViewed = json_decode($lastViewed);
+
+            foreach ($lastViewed as $item) {
+                if($item == $question->id) {
+                    if (($key = array_search($question->id, $lastViewed)) !== false) {
+
+                        array_splice($lastViewed, $key, 1);
+//                        unset($lastViewed[$key]);
+                    }
+                }
+            }
+
+            array_push($lastViewed, $question->id);
+
+            if(count($lastViewed) > 6) {
+                array_pop($lastViewed);
+            }
+        }
+
         $question->visit();
 
         $question->likeCount = $question->rates()->where('type', 'like')->count();
@@ -68,6 +97,13 @@ class QuestionController extends Controller
         }
 
 
+//        $response = new \Illuminate\Http\Response(view('public.question.show', compact('question')));
+////        $response->withCookie(cookie()->forever('last_viewed', $jsonLV));
+//        Cookie::queue(Cookie::make('last_viewed', $jsonLV, 123));
+//        return $response;
+//        return redirect('/')->withCookie(cookie()->forever('last_viewed', '123', 123));
+
+        Cookie::queue(Cookie::make('last_viewed', json_encode($lastViewed)));
         return view('public.question.show', compact('question'));
     }
 

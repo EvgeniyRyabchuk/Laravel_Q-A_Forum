@@ -110,6 +110,7 @@ class AuthController extends Controller
 
         // how to set expire value
         // how to revoke access token
+        // refactor db for refresh token
         // react google auth
 
         $googleUser = Socialite::driver('google')->user();

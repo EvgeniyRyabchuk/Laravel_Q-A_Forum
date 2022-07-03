@@ -25,6 +25,22 @@
             @include('partial_view.question.index')
         </div>
 
+        <ul class="d-flex" style="overflow-x: auto;">
+            @foreach($recentlyViewed as $recentlyItem)
+                <li style="display: block;
+                border: 1px solid black;
+                 margin: 10px;
+                 min-width: 200px;
+                 padding: 10px;
+                  ">
+                    <h4>{{$recentlyItem->title}}</h4>
+                    <p>
+                        {{ $recentlyItem->text }}
+                    </p>
+                </li>
+            @endforeach
+        </ul>
+
         <div class="d-flex justify-content-between my-5" style="padding: 0 169px; " >
 
             {{ $questions->links('partial_view.paginate.paginate', compact('queryParams')) }}
@@ -45,5 +61,9 @@
 {{--            })--}}
 {{--        }--}}
 {{--    </script>--}}
+
+{{--    {{--}}
+{{--      dd($recentlyViewed)--}}
+{{-- }}--}}
 
 @endsection
