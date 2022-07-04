@@ -116,6 +116,8 @@ class AuthController extends Controller
         // refactor db for refresh token
         // react google auth
 
+        // laravel oauth2 example
+
         $googleUser = Socialite::driver('google')->user();
 
         if($googleUser) {
@@ -167,7 +169,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect('/')
-                ->withCookie(cookie('refresh_token', $googleUser->refreshToken, $minutes));
+                ->withCookie(cookie('refresh_token', $googleUser->refreshToken, 60 * 24 * 30));
         }
     }
 
