@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string("about", 4000)->nullable();
             $table->string("avatar", 4096)->default('users/default-avatar.png');
+
+//            $table->unsignedMediumInteger('google_id')->nullable();
+//            $table->string('token', 300)->nullable();
+            $table->string("auth_type", 100)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

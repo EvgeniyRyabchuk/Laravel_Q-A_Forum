@@ -14,6 +14,9 @@ use Laravel\Socialite\Facades\Socialite;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length');
+header('Access-Control-Allow-Origin: *');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -31,3 +34,10 @@ Route::post('/logout', function (Request $request) {
     $driver->revokeToken();
     dd($socialUser);
 })->middleware('auth.google');
+
+
+
+Route::post('/auth/google/callback',
+    [\App\Http\Controllers\AuthController::class, 'loginWithGoogleApi']);
+
+

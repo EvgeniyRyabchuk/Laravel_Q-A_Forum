@@ -21,13 +21,12 @@ class GoogleAuthMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-
         $driver = Socialite::driver('google');
 
         $access_token = $request->header('Authorization');
 
         $socialUser = $driver->userFromToken($access_token);
-
+        dd($socialUser);
         $user = User::where('email', $socialUser->user['email'])->first();
 
         Auth::login($user);

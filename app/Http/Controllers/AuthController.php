@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrateRequest;
+use App\Models\AccessToken;
+use App\Models\RefreshTokens;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -116,19 +119,25 @@ class AuthController extends Controller
         $googleUser = Socialite::driver('google')->user();
 
         if($googleUser) {
+            $newDateTimeRefreshToken = Carbon::now()->addMonth(1);
+            $newDateTimeAccessToken = Carbon::now()->addMinutes(20);
+
             $user = User::where('email', $googleUser->email)->first();
 
             if($user) {
-               $user->google_token = $googleUser->token;
-               $user->google_refresh_token = $googleUser->refreshToken;
+                $user->accessTokens()->save(
+                    new AccessToken([
+                        'token' => $googleUser->token,
+                        'expired_at' => $newDateTimeAccessToken,
+                    ])
+                );
             }
             else {
                 $user = new User();
+                $user->auth_type = 'google';
                 $user->google_id = $googleUser->id;
                 $user->name = $googleUser->name;
                 $user->email = $googleUser->email;
-                $user->token = $googleUser->token;
-                $user->google_refresh_token = $googleUser->refreshToken;
             }
 
             //TODO: why not work
@@ -140,15 +149,43 @@ class AuthController extends Controller
 //                'google_token' => $googleUser->token,
 //                'google_refresh_token' => $googleUser->refreshToken,
 //            ]);
+
             $user->save();
+            $user->refreshTokens()->save(
+                new RefreshTokens([
+                    'token' => $googleUser->refreshToken,
+                    'expired_at' => $newDateTimeRefreshToken,
+                ])
+            );
+            $user->accessTokens()->save(
+                new AccessToken([
+                    'token' => $googleUser->token,
+                    'expired_at' => $newDateTimeAccessToken,
+                ])
+            );
+
             Auth::login($user);
-            $minutes = env('APP_AUTH_TICKET_EXPIRATION_MINUTE');
-//            dd($googleUser);
-//            dd($googleUser->token);
+
             return redirect('/')
                 ->withCookie(cookie('refresh_token', $googleUser->refreshToken, $minutes));
-
         }
+    }
+
+
+    public function loginWithGoogleApi(Request $request)
+    {
+        $accessToken = $request->input('accessToken');
+
+        $driver = Socialite::driver('google');
+
+        $socialUser = $driver->userFromToken($accessToken);
+
+        dd($socialUser);
+
+        $user = User::where('email', $socialUser->user['email'])->first();
+
+//        Auth::login($user);
+
     }
 
     public function logout(Request $request) {

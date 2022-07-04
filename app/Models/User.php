@@ -22,8 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'google_token',
-        'google_refresh_token'
+        'auth_type'
     ];
 
     /**
@@ -63,7 +62,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Rate::class);
     }
 
-    public function users() {
-        return $this->belongsTo(User::class);
+    public function refreshTokens() {
+        return $this->hasMany(RefreshTokens::class);
+    }
+    public function accessTokens() {
+        return $this->hasMany(AccessToken::class);
     }
 }

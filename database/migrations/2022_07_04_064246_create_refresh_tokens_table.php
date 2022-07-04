@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("google_id")->nullable();
+        Schema::create('refresh_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->string('token', 300);
+            $table->dateTime('expired_at');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn("google_id");
-        });
+        Schema::dropIfExists('refresh_tokens');
     }
 };
