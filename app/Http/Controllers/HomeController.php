@@ -22,9 +22,6 @@ class HomeController extends Controller
 
         $recentlyViewedId = json_decode(Cookie::get('last_viewed'));
 
-//        dd($recentlyViewedId);
-
-
         if(isset($recentlyViewedId)) {
 //            $recentlyViewed = Question::whereIn('id', $recentlyViewedId)->get();
             foreach ($recentlyViewedId as $item) {
@@ -52,7 +49,7 @@ class HomeController extends Controller
         ];
 
         if($request->get('ajax') !== null) {
-            return view('public.home', compact('questions', 'queryParams'));
+            return view('public.home', compact('questions', 'queryParams', 'recentlyViewed'));
         }
 
 //        $questions = Question::latest()->paginate(5);

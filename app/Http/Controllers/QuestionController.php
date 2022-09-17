@@ -62,7 +62,7 @@ class QuestionController extends Controller
 
         $lastViewed = Cookie::get('last_viewed');
 
-        if(is_null($lastViewed)) {
+        if(is_null($lastViewed)) { 
             $lastViewed = [$question->id];
         }
         else {

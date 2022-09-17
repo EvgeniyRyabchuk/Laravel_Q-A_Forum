@@ -84,7 +84,9 @@
             if(pageCount >= totalCount) {
                 document.getElementById('nextPageBtn').classList.add('disabled');
             }
+
             const data = await fetch(url);
+
             const htmlText = await data.text();
             let doc = parseHTML(htmlText);
 

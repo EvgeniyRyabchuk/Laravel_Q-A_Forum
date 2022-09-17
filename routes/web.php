@@ -26,12 +26,16 @@ use Laravel\Socialite\Facades\Socialite;
 
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length');
+
+header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
 header('Access-Control-Allow-Origin: *');
 
 //Route::redirect('/', request()->getPreferredLanguage(array_flip(config('app.locales'))) ?? '/en');
 Route::redirect('/', '/en');
 
-
+Route::get("/test", function () {
+    return response()->json(["message" => "123"]);
+});
 Route::post('change_lang', [LangController::class, "change"])->name('lang.change');
 
 
